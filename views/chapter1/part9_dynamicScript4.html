@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dynamic Script3</title>
+        <script>
+            function loadScript(url, callback){
+                var script = document.createElement('script');
+                //script.type = 'text/javascript';
+
+                console.log('script', script);
+
+                if (script.onload){
+                    //IE
+                    script.onreadystatechange = function(){
+                        if (this.readyState !== 'done' && (!this.readyState || this.readyState === 'loaded' || this.readyState == 'complete')) {
+                            script.onload = null;
+                            console.log('IE Process');
+                            callback();
+                        }
+                    };
+                } else {
+                    //Others
+                    script.onload = function(){
+                        console.log('Other Browser Process');
+                        callback();
+                    };
+                }
+
+                script.src = url;
+                document.getElementsByTagName('head')[0].appendChild(script);
+            }
+
+            loadScript('../../assets/jquery/jquery-3.2.1.min.js', function(){
+                alert('File is loaded!');
+            });
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
